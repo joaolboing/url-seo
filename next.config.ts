@@ -5,9 +5,6 @@ const nextConfig: NextConfig = {
   basePath: "/url-seo",
   output: "export",
   reactStrictMode: true,
-  images: {
-    unoptimized: true,
-  },
 };
 
 export default nextConfig;

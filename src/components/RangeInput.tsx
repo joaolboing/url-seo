@@ -6,26 +6,30 @@ interface RangeInputProps {
   onChange: (value: number) => void
 }
 
-export const RangeInput: React.FC<RangeInputProps> = (
-  props: RangeInputProps,
-) => {
+export const RangeInput: React.FC<RangeInputProps> = ({
+  min,
+  max,
+  label,
+  value,
+  onChange,
+}) => {
   return (
     <div>
-      <label className="block text-sm font-medium">{props.label}</label>
+      <label className="block text-sm font-medium">{label}</label>
       <div className="flex items-center gap-4">
         <input
           type="range"
-          min={props.min}
-          max={props.max}
-          value={props.value}
-          onChange={(e) => props.onChange(Number(e.target.value))}
+          min={min}
+          max={max}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
         />
         <input
           type="number"
-          value={props.value}
-          min={props.min}
-          max={props.max}
-          onChange={(e) => props.onChange(Number(e.target.value))}
+          value={value}
+          min={min}
+          max={max}
+          onChange={(e) => onChange(Number(e.target.value))}
         />
       </div>
     </div>

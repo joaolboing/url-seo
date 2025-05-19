@@ -1,29 +1,81 @@
 'use client'
 
-import { RangeInput } from '@/components/RangeInput'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Home() {
-  const [comprimento, setComprimento] = useState(60)
-  return (
-    <div>
-      <h1>URL SEO</h1>
+  const rows = 25
 
-      <div>
-        <span>Settings</span>
-        <div className="flex flex-row gap-4">
-          <RangeInput
-            min={10}
-            max={150}
-            label="Comprimento"
-            value={comprimento}
-            onChange={(value) => setComprimento(value)}
-          />
+  const titulosRef = useRef<HTMLTextAreaElement>(null)
+  const urlsRef = useRef<HTMLTextAreaElement>(null)
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleScroll = (sourceTextArea: any, targetTextArea: any) => {
+    const source = sourceTextArea.current
+    const target = targetTextArea.current
+
+    if (!source || !target) return
+
+    target.scrollTop = source.scrollTop
+    target.scrollLeft = source.scrollLeft
+  }
+
+  useEffect(() => {
+    const titulosArea = titulosRef.current
+    const urlsArea = urlsRef.current
+
+    if (titulosArea && urlsArea) {
+      const handleScroll1 = () => handleScroll(titulosRef, urlsRef)
+      const handleScroll2 = () => handleScroll(urlsRef, titulosRef)
+
+      titulosArea.addEventListener('scroll', handleScroll1)
+      urlsArea.addEventListener('scroll', handleScroll2)
+      return () => {
+        titulosArea.removeEventListener('scroll', handleScroll1)
+        urlsArea.removeEventListener('scroll', handleScroll2)
+      }
+    }
+  })
+
+  const [titulos, setTitulos] = useState<string[]>([])
+  const [urls, setUrls] = useState<string[]>([])
+
+  useEffect(() => {
+    const urls = titulos.map((titulo) => {
+      return titulo
+        .toLowerCase()
+        .trim()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+    })
+    setUrls(urls)
+  }, [titulos])
+
+  return (
+    <div className="container mx-auto mt-2">
+      <h1 className="text-3xl font-bold text-center">URL SEO</h1>
+
+      <div className="grid grid-cols-2 gap-4 m-4">
+        <div className="flex flex-col text-center">
+          <label>Titulos</label>
+          <textarea
+            ref={titulosRef}
+            rows={rows}
+            className="border"
+            value={titulos.join('\n')}
+            onChange={(e) => {
+              setTitulos(e.target.value.split('\n'))
+            }}
+          ></textarea>
         </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div></div>
-        <div></div>
+        <div className="flex flex-col text-center">
+          <label>URLs</label>
+          <textarea
+            ref={urlsRef}
+            rows={rows}
+            value={urls.join('\n')}
+            className="border"
+          ></textarea>
+        </div>
       </div>
     </div>
   )

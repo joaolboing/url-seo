@@ -7,6 +7,7 @@ export default function Home() {
 
   const titulosRef = useRef<HTMLTextAreaElement>(null)
   const urlsRef = useRef<HTMLTextAreaElement>(null)
+  const urlLenghtRef = useRef<HTMLTextAreaElement>(null)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleScroll = (sourceTextArea: any, targetTextArea: any) => {
@@ -22,16 +23,30 @@ export default function Home() {
   useEffect(() => {
     const titulosArea = titulosRef.current
     const urlsArea = urlsRef.current
+    const urlLenghtArea = urlLenghtRef.current
 
-    if (titulosArea && urlsArea) {
+    if (titulosArea && urlsArea && urlLenghtArea) {
       const handleScroll1 = () => handleScroll(titulosRef, urlsRef)
       const handleScroll2 = () => handleScroll(urlsRef, titulosRef)
+      const handleScroll3 = () => handleScroll(urlsRef, urlLenghtRef)
+      const handleScroll4 = () => handleScroll(titulosRef, urlLenghtRef)
+      const handleScroll5 = () => handleScroll(urlLenghtRef, urlsRef)
+      const handleScroll6 = () => handleScroll(urlLenghtRef, titulosRef)
 
       titulosArea.addEventListener('scroll', handleScroll1)
       urlsArea.addEventListener('scroll', handleScroll2)
+      urlsArea.addEventListener('scroll', handleScroll3)
+      titulosArea.addEventListener('scroll', handleScroll4)
+      urlLenghtArea.addEventListener('scroll', handleScroll5)
+      urlLenghtArea.addEventListener('scroll', handleScroll6)
+
       return () => {
         titulosArea.removeEventListener('scroll', handleScroll1)
         urlsArea.removeEventListener('scroll', handleScroll2)
+        urlsArea.removeEventListener('scroll', handleScroll3)
+        titulosArea.removeEventListener('scroll', handleScroll4)
+        urlLenghtArea.removeEventListener('scroll', handleScroll5)
+        urlLenghtArea.removeEventListener('scroll', handleScroll6)
       }
     }
   })
@@ -69,12 +84,20 @@ export default function Home() {
         </div>
         <div className="flex flex-col text-center">
           <label>URLs</label>
-          <textarea
-            ref={urlsRef}
-            rows={rows}
-            value={urls.join('\n')}
-            className="border p-2"
-          ></textarea>
+          <div className="grid grid-cols-16">
+            <textarea
+              ref={urlLenghtRef}
+              rows={rows}
+              value={urls.map((url) => url.length).join('\n')}
+              className="border p-2 col-span-1 overflow-hidden text-right"
+            ></textarea>
+            <textarea
+              ref={urlsRef}
+              rows={rows}
+              value={urls.join('\n')}
+              className="border p-2 col-span-[15]"
+            ></textarea>
+          </div>
         </div>
       </div>
     </div>

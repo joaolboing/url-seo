@@ -75,7 +75,7 @@ export default function Home() {
           <textarea
             ref={titulosRef}
             rows={rows}
-            className="border p-2"
+            className="border p-2  resize-none"
             value={titulos.join('\n')}
             onChange={(e) => {
               setTitulos(e.target.value.split('\n'))
@@ -89,13 +89,13 @@ export default function Home() {
               ref={urlLenghtRef}
               rows={rows}
               value={urls.map((url) => url.length).join('\n')}
-              className="border p-2 col-span-1 overflow-hidden text-right"
+              className="border p-2 col-span-1 overflow-hidden text-right resize-none"
             ></textarea>
             <textarea
               ref={urlsRef}
               rows={rows}
               value={urls.join('\n')}
-              className="border p-2 col-span-[15]"
+              className="border p-2 col-span-[15]  resize-none"
             ></textarea>
           </div>
         </div>

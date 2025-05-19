@@ -60,7 +60,7 @@ export default function Home() {
           <textarea
             ref={titulosRef}
             rows={rows}
-            className="border"
+            className="border p-2"
             value={titulos.join('\n')}
             onChange={(e) => {
               setTitulos(e.target.value.split('\n'))
@@ -73,7 +73,7 @@ export default function Home() {
             ref={urlsRef}
             rows={rows}
             value={urls.join('\n')}
-            className="border"
+            className="border p-2"
           ></textarea>
         </div>
       </div>
